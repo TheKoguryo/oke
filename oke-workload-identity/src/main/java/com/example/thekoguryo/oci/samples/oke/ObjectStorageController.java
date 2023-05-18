@@ -23,10 +23,8 @@ public class ObjectStorageController {
 
         GetNamespaceResponse namespaceResponse = client.getNamespace(GetNamespaceRequest.builder().build());
         String namespaceName = namespaceResponse.getValue();
-        System.out.println("Using namespace: " + namespaceName);
 
         return "{ \"data\": \"" + namespaceName + "\" }\n";
-
     }
-    
+
 }
