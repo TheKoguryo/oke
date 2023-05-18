@@ -1,0 +1,51 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: workload-identity-ns
+  labels:
+    app: workload-identity
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: workload-identity-deployment
+  namespace: workload-identity-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: workload-identity
+  template:
+    metadata:
+      labels:
+        app: workload-identity
+    spec:
+      containers:
+      - name: workload-identity
+        image: thekoguryo/oke-workload-identity:0.0.1
+        imagePullPolicy: Always        
+        ports:
+        - containerPort: 8080
+        env:
+        - name: OCI_AUTH
+          value: "OkeWorkloadIdentity"
+        - name: OCI_REGION
+          value: "ap-chuncheon-1"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: workload-identity-service
+  labels:
+    app: workload-identity
+  namespace: workload-identity-ns
+spec:
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: workload-identity
+  type: LoadBalancer
