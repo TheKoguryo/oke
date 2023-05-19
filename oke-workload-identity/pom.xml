@@ -39,11 +39,11 @@
 			<artifactId>oci-java-sdk-common</artifactId>
 			<version>2.54.0</version>
 		</dependency>        
-
-        <dependency>
-            <groupId>com.oracle.oci.sdk</groupId>
-            <artifactId>oci-java-sdk-objectstorage</artifactId>
-            <version>2.54.0</version>        
+		
+		<dependency>
+			<groupId>com.oracle.oci.sdk</groupId>
+			<artifactId>oci-java-sdk-objectstorage</artifactId>
+			<version>2.54.0</version>        
 		</dependency>              
 	</dependencies>
 
