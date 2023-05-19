@@ -22,6 +22,8 @@ spec:
       labels:
         app: workload-identity
     spec:
+      serviceAccountName: workload-identity-sa
+      automountServiceAccountToken: true
       containers:
       - name: workload-identity
         image: thekoguryo/oke-workload-identity:0.0.1
