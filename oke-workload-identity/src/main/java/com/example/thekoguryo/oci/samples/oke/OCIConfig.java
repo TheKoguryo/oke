@@ -12,9 +12,9 @@ import org.slf4j.LoggerFactory;
 
 public class OCIConfig {
 
-    private static final String OCI_AUTH = System.getenv().get("OCI_AUTH");
-    private static final String OCI_CONFIG_FILE = System.getenv().get("OCI_CONFIG_FILE");
-    public  static final String OCI_REGION = System.getenv().get("OCI_REGION");
+    private static String OCI_AUTH = System.getenv().get("OCI_AUTH");
+    private static String OCI_CONFIG_FILE = System.getenv().get("OCI_CONFIG_FILE");
+    public  static String OCI_REGION = System.getenv().get("OCI_REGION");
 
     private static Logger logger = LoggerFactory.getLogger(OCIConfig.class);
 
@@ -28,7 +28,7 @@ public class OCIConfig {
         String configurationFilePath = "~/.oci/config";
         String profile = "DEFAULT";
 
-        if (OCI_AUTH.compareTo("OkeWorkloadIdentity") == 0 ) {
+        if (OCI_AUTH != null && OCI_AUTH.compareTo("OkeWorkloadIdentity") == 0 ) {
             /* Config the Container Engine for Kubernetes workload identity provider */
             OkeWorkloadIdentityAuthenticationDetailsProvider provider = new OkeWorkloadIdentityAuthenticationDetailsProvider
                 .OkeWorkloadIdentityAuthenticationDetailsProviderBuilder()
@@ -42,6 +42,10 @@ public class OCIConfig {
 
             ConfigFileReader.ConfigFile configFile = ConfigFileReader.parse(configurationFilePath, profile);
 
+            if (OCI_REGION == null) {
+                OCI_REGION = configFile.get("region");
+            }
+            
             AuthenticationDetailsProvider provider = new ConfigFileAuthenticationDetailsProvider(configFile);
 
             return provider;
